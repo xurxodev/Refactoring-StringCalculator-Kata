@@ -4,36 +4,35 @@
 
 ```swift
 class StringCalculatorShould: XCTestCase {
+   func test_return_zero_if_input_is_empty() {
+      let expectedResult: Int = 0
 
-func test_return_zero_if_input_is_empty() {
-let expectedResult: Int = 0
+      let calculator:StringCalculator = StringCalculator()
 
-let calculator:StringCalculator = StringCalculator()
+      let result: Int = calculator.add("")
 
-let result: Int = calculator.add("")
+      XCTAssertEqual(result, expectedResult)
+    }
 
-XCTAssertEqual(result, expectedResult)
-}
+    func test_return_one_if_input_is_one() {
+       let expectedResult: Int = 1
 
-func test_return_one_if_input_is_one() {
-let expectedResult: Int = 1
+       let calculator:StringCalculator = StringCalculator()
 
-let calculator:StringCalculator = StringCalculator()
+       let result: Int = calculator.add("1")
 
-let result: Int = calculator.add("1")
+       XCTAssertEqual(result, expectedResult)
+   }
 
-XCTAssertEqual(result, expectedResult)
-}
+   func test_return_three_if_input_is_one_and_two() {
+      let expectedResult: Int = 3
 
-func test_return_three_if_input_is_one_and_two() {
-let expectedResult: Int = 3
+      let calculator:StringCalculator = StringCalculator()
 
-let calculator:StringCalculator = StringCalculator()
+      let result: Int = calculator.add("1,2")
 
-let result: Int = calculator.add("1,2")
-
-XCTAssertEqual(result, expectedResult)
-}
+      XCTAssertEqual(result, expectedResult)
+   }
 }
 ```
 
@@ -41,31 +40,25 @@ XCTAssertEqual(result, expectedResult)
 
 ```swift
 class StringCalculator{
-let default_result:Int = 0
+   let default_result:Int = 0
 
-func add(numbers:String) -> Int {
-if (numbers=="")
-{
-return default_result;
+   func add(numbers:String) -> Int {
+      if (numbers==""){
+         return default_result;
+      }
+      if (numbers.containsString(",")){
+         return handleMultiple(numbers);
+      }
+      return parseSingle(numbers);
+   }
+
+   private func parseSingle(input:String)-> Int {
+      return Int(input)!;
+   }
+
+   private func handleMultiple(input:String)-> Int {
+      let numbers = input.componentsSeparatedByString(",");
+      return add(numbers[0]) + add(numbers[1]);
+   }
 }
-if (numbers.containsString(","))
-{
-return handleMultiple(numbers);
-}
-return parseSingle(numbers);
-}
-
-
-private func parseSingle(input:String)-> Int {
-return Int(input)!;
-}
-
-
-private func handleMultiple(input:String)-> Int {
-let numbers = input.componentsSeparatedByString(",");
-return add(numbers[0]) + add(numbers[1]);
-}
-}
-
-
 ```
