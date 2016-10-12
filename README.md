@@ -22,6 +22,15 @@ Given a simple implementation of string calculator, mid way, how would you refac
 8. Allow multiple delimiters like this:  “//[delim1][delim2]\n” for example “//[*][%]\n1*2%3” should return 6.
 9. make sure you can also handle multiple delimiters with length longer than one char
 
+## Problem Description
+
+Given a simple implementation of string calculator.
+
+Refactor string calculator based in SOLID Principles.
+
+Identifies responsibilities and separate them in their own class 
+
+All Test must pass
 
 ##Developed By
 
