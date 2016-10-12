@@ -1,4 +1,4 @@
-# Java initial implementation
+# Swift initial implementation
 
 ## Tests
 
