@@ -18,7 +18,7 @@ class StringCalculatorShould: XCTestCase {
         
         let calculator:StringCalculator = StringCalculator()
         
-        let result: Int = calculator.add("")
+        let result: Int = calculator.add("1")
         
         XCTAssertEqual(result, expectedResult)
     }
@@ -28,7 +28,7 @@ class StringCalculatorShould: XCTestCase {
         
         let calculator:StringCalculator = StringCalculator()
         
-        let result: Int = calculator.add("")
+        let result: Int = calculator.add("1,2")
         
         XCTAssertEqual(result, expectedResult)
     }

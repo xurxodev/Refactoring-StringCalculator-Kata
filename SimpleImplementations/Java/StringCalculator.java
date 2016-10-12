@@ -1,7 +1,7 @@
 package com.xurxodev.refactoringstringcalculator;
 
 public class StringCalculator {
-    public int DEFAULT_RESULT = 0;
+    private int DEFAULT_RESULT = 0;
 
     public int add(String numbers)
     {
@@ -13,10 +13,10 @@ public class StringCalculator {
         {
             return handleMultiple(numbers);
         }
-        return ParseSingle(numbers);
+        return parseSingle(numbers);
     }
 
-    private static int ParseSingle(String input)
+    private static int parseSingle(String input)
     {
         return Integer.parseInt(input);
     }
