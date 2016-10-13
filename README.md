@@ -14,8 +14,6 @@ Given a simple implementation of string calculator.
 
 Refactor string calculator based in SOLID Principles.
 
-Identifies responsibilities and separate them in their own class 
-
 All Test must pass
 
 ##Developed By
