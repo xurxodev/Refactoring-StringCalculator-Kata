@@ -1,28 +1,48 @@
 import UIKit
 
+
+
 class StringCalculator{
     let default_result:Int = 0
     
-    func add(numbers:String) -> Int {
-        if (numbers=="")
-        {
+    func add(input:String) throws -> Int {
+        if (input==""){
             return default_result;
         }
-        if (numbers.containsString(","))
-        {
-            return handleMultiple(numbers);
+        
+        if (input.containsString(",")){
+            return try handleMultiple(input);
         }
-        return parseSingle(numbers);
+        
+        return try parseSingle(input);
     }
     
         
-    private func parseSingle(input:String)-> Int {
-        return Int(input)!;
-    }
-    
+    private func parseSingle(input:String)throws -> Int {
+        let number = Int(input)!;
         
-    private func handleMultiple(input:String)-> Int {
+        if (number > 1000){
+            return 0;
+        }
+        else if (number < 0){
+            throw InvalidInputError.NegativeNumbersFound
+        }
+        else{
+            return number
+        }
+    }
+        
+    private func handleMultiple(input:String)throws -> Int {
+        var sum:Int = 0
+        
         let numbers = input.componentsSeparatedByString(",");
-        return add(numbers[0]) + add(numbers[1]);
+        
+        for number in numbers {
+            sum += try parseSingle(number)
+        }
+        
+        return sum;
     }
 }
+
+
