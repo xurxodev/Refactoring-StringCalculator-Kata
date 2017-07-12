@@ -16,11 +16,11 @@ Refactor string calculator based in SOLID Principles.
 
 All Test must pass
 
-##Developed By
+## Developed By
 
 * Jorge Sánchez Fernández aka [xurxodev](https://twitter.com/xurxodev)
 
-##License
+## License
 
 
     Copyright 2016 Jorge Sánchez Fernández
