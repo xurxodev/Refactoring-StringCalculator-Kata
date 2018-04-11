@@ -83,7 +83,7 @@ public class StringCalculatorShould
 ## Simple StringCalculator
 
 ```c#
-ppublic class StringCalculator
+public class StringCalculator
     {
         private int DEFAULT_RESULT = 0;
 
