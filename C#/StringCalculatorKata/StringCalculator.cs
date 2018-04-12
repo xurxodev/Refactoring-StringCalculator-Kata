@@ -1,48 +1,42 @@
-﻿using System;
+﻿using StringCalculatorKata.Boundaries;
+using System;
+using System.Collections.Generic;
 
 namespace StringCalculatorKata
 {
     public class StringCalculator
     {
-        private int DEFAULT_RESULT = 0;
+        INumberExtractor numberExtractor;
+        INumberRemover numberRemover;
+        INumberValidator numberValidator;
 
-        public int Add(string input)
+        public StringCalculator(INumberExtractor numberExtractor,
+                                INumberRemover numberRemover,
+                                INumberValidator numberValidator)
         {
-            if (string.IsNullOrEmpty(input))
-            {
-                return DEFAULT_RESULT;
-            }
-            if (input.Contains(","))
-            {
-                return HandleMultiple(input);
-            }
-            return ParseSingle(input);
+            this.numberExtractor = numberExtractor;
+            this.numberRemover = numberRemover;
+            this.numberValidator = numberValidator;
         }
 
-        private int ParseSingle(String input)
+        public int Add(String input)
         {
-            int number = int.Parse(input);
+            List<int> allNumbers = numberExtractor.Extract(input);
 
-            if (number > 1000)
-                return 0;
-            else if (number < 0)
-                throw new Exception("negatives not allowed");
-            else
-                return number;
+            List<int> numbersWithoutIgnored = numberRemover.RemoveNumbersToIgnore(allNumbers);
 
+            numberValidator.Validate(numbersWithoutIgnored);
+
+            return SumNumbers(numbersWithoutIgnored);
         }
 
-        private int HandleMultiple(String input)
+        private int SumNumbers(List<int> numbers)
         {
             int sum = 0;
-
-            String[] numbers = input.Split(',');
-
-            foreach (String number in numbers)
+            foreach (int num in numbers)
             {
-                sum += ParseSingle(number);
+                sum += num;
             }
-
             return sum;
         }
     }

@@ -1,4 +1,8 @@
-﻿using System;
+﻿using StringCalculatorKata.Boundaries;
+using StringCalculatorKata.Errors;
+using StringCalculatorKata.Rules;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace StringCalculatorKata.Tests
@@ -10,7 +14,7 @@ namespace StringCalculatorKata.Tests
         {
             int expectedResult = 0;
 
-            StringCalculator calculator = new StringCalculator();
+            StringCalculator calculator = GivenAStringCalculator(); 
 
             int result = calculator.Add("");
 
@@ -22,7 +26,7 @@ namespace StringCalculatorKata.Tests
         {
             int expectedResult = 1;
 
-            StringCalculator calculator = new StringCalculator();
+            StringCalculator calculator = GivenAStringCalculator();
 
             int result = calculator.Add("1");
 
@@ -34,7 +38,7 @@ namespace StringCalculatorKata.Tests
         {
             int expectedResult = 3;
 
-            StringCalculator calculator = new StringCalculator();
+            StringCalculator calculator = GivenAStringCalculator();
 
             int result = calculator.Add("1,2");
 
@@ -46,7 +50,7 @@ namespace StringCalculatorKata.Tests
         {
             int expectedResult = 15;
 
-            StringCalculator calculator = new StringCalculator();
+            StringCalculator calculator = GivenAStringCalculator();
 
             int result = calculator.Add("1,2,3,4,5");
 
@@ -58,7 +62,7 @@ namespace StringCalculatorKata.Tests
         {
             int expectedResult = 2;
 
-            StringCalculator calculator = new StringCalculator();
+            StringCalculator calculator = GivenAStringCalculator();
 
             int result = calculator.Add("2,1001");
 
@@ -68,14 +72,45 @@ namespace StringCalculatorKata.Tests
         [Fact]
         public void throw_exception_if_input_contains_negative_number()
         {
-            Exception ex = Assert.Throws<Exception>(() =>
+            NegativeNumbersNotAllowedException ex = Assert.Throws<NegativeNumbersNotAllowedException>(() =>
             {
-                StringCalculator calculator = new StringCalculator();
+                StringCalculator calculator = GivenAStringCalculator();
 
                 int result = calculator.Add("2,-5");
             });
 
-            Assert.Equal("negatives not allowed", ex.Message);
+            Assert.Equal("Negatives not allowed", ex.Message);
+        }
+
+        private StringCalculator GivenAStringCalculator()
+        {
+            INumberExtractor numberExtractor = new NumberExtractorFromCommaSeparatedString();
+            INumberRemover numberRemover = createNumberRemover();
+            INumberValidator numberValidator = createNumberValidator();
+
+            return new StringCalculator(numberExtractor, numberRemover, numberValidator);
+        }
+
+        private INumberRemover createNumberRemover()
+        {
+            IIgnoreRule ignoredRule = new NumberGreaterThanIgnoredRule(1000);
+
+            List<IIgnoreRule> ignoredRules = new List<IIgnoreRule>();
+
+            ignoredRules.Add(ignoredRule);
+
+            return new NumberRemoverByIgnoredRules(ignoredRules);
+        }
+
+        private INumberValidator createNumberValidator()
+        {
+            IValidateRule validateRule = new NegativeNumberValidateRule();
+
+            List<IValidateRule> validateRules = new List<IValidateRule>();
+
+            validateRules.Add(validateRule);
+
+            return new NumberValidatorByValidateRules(validateRules);
         }
     }
 }
