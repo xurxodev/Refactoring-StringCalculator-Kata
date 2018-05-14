@@ -16,6 +16,8 @@ Refactor string calculator based in SOLID Principles.
 
 All Test must pass
 
+The code should be flexible for receive different separators or validations on the future
+
 ## Developed By
 
 * Jorge Sánchez Fernández aka [xurxodev](https://twitter.com/xurxodev)
